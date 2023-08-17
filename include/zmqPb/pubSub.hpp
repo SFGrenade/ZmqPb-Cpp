@@ -1,17 +1,17 @@
-#ifndef REQREP_HPP_
-#define REQREP_HPP_
+#ifndef PUBSUB_HPP_
+#define PUBSUB_HPP_
 
-#include "zmqWrap.hpp"
+#include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class ReqRep : public ZmqWrap {
+class PubSub : public ZmqWrap {
   public:
   enum class Status { Receiving, Sending };
 
   public:
-  ReqRep( std::string const& host, uint16_t port, bool isServer );
-  ~ReqRep();
+  PubSub( std::string const& host, uint16_t port, bool isServer );
+  ~PubSub();
 
   protected:
   virtual bool canSend() const override;
@@ -21,9 +21,9 @@ class ReqRep : public ZmqWrap {
 
   private:
   bool isServer_;
-  ReqRep::Status status_;
+  PubSub::Status status_;
 };
 
 }  // namespace ZmqPb
 
-#endif /* REQREP_HPP_ */
+#endif /* PUBSUB_HPP_ */

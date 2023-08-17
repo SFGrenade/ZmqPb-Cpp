@@ -1,8 +1,8 @@
-#include "zmqWrap.hpp"
+#include "zmqPb/zmqWrap.hpp"
 
 #include <fmt/core.h>
 
-#include "main.pb.h"
+#include "zmqWrap.pb.h"
 
 namespace ZmqPb {
 
