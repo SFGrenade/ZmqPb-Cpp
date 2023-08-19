@@ -17,7 +17,7 @@ ZmqWrap::ZmqWrap( std::string const& host, uint16_t port, zmq::socket_type socke
 
 ZmqWrap::~ZmqWrap() {
   while( !queueToSend_.empty() ) {
-    google::protobuf::Message* tmp = queueToSend_.front();
+    zmq::message_t* tmp = queueToSend_.front();
     if( tmp ) {
       delete tmp;
     }
@@ -43,19 +43,21 @@ void ZmqWrap::subscribe( google::protobuf::Message* message, std::function< void
 
 void ZmqWrap::sendMessage( google::protobuf::Message* message ) {
   mutexForSendQueue_.lock();
-  queueToSend_.push( message );
+  ZmqPb::Proto::Wrapper* wrappedMessage = new ZmqPb::Proto::Wrapper();
+  wrappedMessage->set_protoname( message->GetTypeName() );
+  wrappedMessage->set_protocontent( message->SerializeAsString() );
+  zmq::message_t* newMessage = new zmq::message_t( wrappedMessage->SerializeAsString() );
+  queueToSend_.push( newMessage );
   mutexForSendQueue_.unlock();
+  delete wrappedMessage;
+  delete message;
 }
 
 void ZmqWrap::run() {
   if( canSend() && !queueToSend_.empty() ) {
     mutexForSendQueue_.lock();
-    google::protobuf::Message* msgToSend = queueToSend_.front();
-    ZmqPb::Proto::Wrapper* actualMessage = new ZmqPb::Proto::Wrapper();
-    actualMessage->set_protoname( msgToSend->GetTypeName() );
-    actualMessage->set_protocontent( msgToSend->SerializeAsString() );
-    zmq::send_result_t sendResult = zmqSocket_.send( zmq::buffer( actualMessage->SerializeAsString() ), zmq::send_flags::dontwait );
-    delete actualMessage;
+    zmq::message_t* msgToSend = queueToSend_.front();
+    zmq::send_result_t sendResult = zmqSocket_.send( *msgToSend, zmq::send_flags::dontwait );
     if( sendResult ) {
       queueToSend_.pop();
       delete msgToSend;

@@ -9,7 +9,6 @@
 #include <string>
 #include <zmq.hpp>
 
-
 namespace ZmqPb {
 
 struct Subscription {
@@ -25,7 +24,7 @@ class ZmqWrap {
   ~ZmqWrap();
 
   void subscribe( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
-  void sendMessage( google::protobuf::Message* message );
+  virtual void sendMessage( google::protobuf::Message* message );
 
   virtual void run();
 
@@ -43,7 +42,7 @@ class ZmqWrap {
   zmq::socket_t zmqSocket_;
 
   std::mutex mutexForSendQueue_;
-  std::queue< google::protobuf::Message* > queueToSend_;
+  std::queue< zmq::message_t* > queueToSend_;
   std::map< std::string, Subscription > subscribedMessages_;
 };
 
