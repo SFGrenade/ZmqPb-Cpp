@@ -4,5 +4,5 @@ package ZmqPb.Proto;
 
 message Wrapper {
   string protoName = 1;
-  string protoContent = 2;
+  bytes protoContent = 2;
 }
