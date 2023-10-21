@@ -8,7 +8,7 @@ namespace ZmqPb {
 
 class ClientServer : public ZmqWrap {
   public:
-  ClientServer( std::string const& host, uint16_t port, bool isServer );
+  ClientServer( std::string const& host, bool isServer );
   ~ClientServer();
 
   protected:

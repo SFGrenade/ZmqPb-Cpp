@@ -4,15 +4,15 @@
 
 namespace ZmqPb {
 
-PubSub::PubSub( std::string const& host, uint16_t port, bool isServer )
-    : ZmqWrap( host, port, isServer ? zmq::socket_type::pub : zmq::socket_type::sub ),
+PubSub::PubSub( std::string const& host, bool isServer )
+    : ZmqWrap( host, isServer ? zmq::socket_type::pub : zmq::socket_type::sub ),
       isServer_( isServer ),
       status_( isServer ? PubSub::Status::Sending : PubSub::Status::Receiving ) {
   if( isServer_ ) {
-    zmqSocket_.bind( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.bind( host_ );
   } else {
     zmqSocket_.set( zmq::sockopt::subscribe, "" );  // subscribe to all incoming messages
-    zmqSocket_.connect( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.connect( host_ );
   }
 }
 

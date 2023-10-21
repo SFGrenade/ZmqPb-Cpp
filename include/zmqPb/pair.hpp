@@ -7,7 +7,7 @@ namespace ZmqPb {
 
 class Pair : public ZmqWrap {
   public:
-  Pair( std::string const& host, uint16_t port, bool isServer );
+  Pair( std::string const& host, bool isServer );
   ~Pair();
 
   protected:

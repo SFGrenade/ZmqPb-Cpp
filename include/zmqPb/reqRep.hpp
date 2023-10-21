@@ -10,7 +10,7 @@ class ReqRep : public ZmqWrap {
   enum class Status { Receiving, Sending };
 
   public:
-  ReqRep( std::string const& host, uint16_t port, bool isServer );
+  ReqRep( std::string const& host, bool isServer );
   ~ReqRep();
 
   protected:

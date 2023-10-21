@@ -20,7 +20,7 @@ struct Subscription {
 
 class ZmqWrap {
   public:
-  ZmqWrap( std::string const& host, uint16_t port, zmq::socket_type socketType );
+  ZmqWrap( std::string const& host, zmq::socket_type socketType );
   ~ZmqWrap();
 
   void subscribe( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
@@ -36,7 +36,6 @@ class ZmqWrap {
 
   protected:
   std::string host_;
-  uint16_t port_;
 
   zmq::context_t zmqContext_;
   zmq::socket_t zmqSocket_;

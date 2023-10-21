@@ -7,7 +7,7 @@ namespace ZmqPb {
 
 class PushPull : public ZmqWrap {
   public:
-  PushPull( std::string const& host, uint16_t port, bool isServer );
+  PushPull( std::string const& host, bool isServer );
   ~PushPull();
 
   protected:

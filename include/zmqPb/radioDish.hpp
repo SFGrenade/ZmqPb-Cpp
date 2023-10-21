@@ -2,15 +2,18 @@
 #ifndef RADIODISH_HPP_
 #define RADIODISH_HPP_
 
+#include <vector>
+
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
 class RadioDish : public ZmqWrap {
   public:
-  RadioDish( std::string const& host, uint16_t port, bool isServer );
+  RadioDish( std::string const& host, bool isServer, std::vector< std::string > const& joinGroups );
   ~RadioDish();
 
+  virtual void sendMessage( google::protobuf::Message* message, std::string const& group ) override;
   virtual void sendMessage( google::protobuf::Message* message ) override;
 
   protected:

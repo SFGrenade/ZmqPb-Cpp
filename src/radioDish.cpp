@@ -2,36 +2,41 @@
 #include "zmqPb/radioDish.hpp"
 
 #include <fmt/core.h>
+#include <stdexcept>
 
 namespace ZmqPb {
 
-RadioDish::RadioDish( std::string const& host, uint16_t port, bool isServer )
-    : ZmqWrap( host, port, isServer ? zmq::socket_type::server : zmq::socket_type::client ), isServer_( isServer ) {
+RadioDish::RadioDish( std::string const& host, bool isServer, std::vector< std::string > const& joinGroups )
+    : ZmqWrap( host, isServer ? zmq::socket_type::server : zmq::socket_type::client ), isServer_( isServer ) {
   if( isServer_ ) {
-    zmqSocket_.bind( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.bind( host_ );
   } else {
-    // todo: have groups for the sockets, needs to overwrite/overload
-    zmqSocket_.join( "Test" );
-    zmqSocket_.connect( fmt::format( "{}:{}", host_, port_ ) );
+    for( std::string joinGroup : joinGroups ) {
+      zmqSocket_.join( joinGroup );
+    }
+    zmqSocket_.connect( host_ );
   }
 }
 
 RadioDish::~RadioDish() {}
 
-void RadioDish::sendMessage( google::protobuf::Message* message ) {
+void RadioDish::sendMessage( google::protobuf::Message* message, std::string const& group ) {
   mutexForSendQueue_.lock();
   ZmqPb::Proto::Wrapper* wrappedMessage = new ZmqPb::Proto::Wrapper();
   wrappedMessage->set_protoname( message->GetTypeName() );
   wrappedMessage->set_protocontent( message->SerializeAsString() );
   zmq::message_t* newMessage = new zmq::message_t( wrappedMessage->SerializeAsString() );
 
-  // todo: have groups for the messages, needs to overwrite/overload
-  newMessage->set_group( "Test" );
+  newMessage->set_group( group );
 
   queueToSend_.push( newMessage );
   mutexForSendQueue_.unlock();
   delete wrappedMessage;
   delete message;
+}
+
+void RadioDish::sendMessage( google::protobuf::Message* message ) {
+  throw new invalid_argument( "RadioDish::sendMessage - overloaded function without group not implemented!" );
 }
 
 bool RadioDish::canSend() const {

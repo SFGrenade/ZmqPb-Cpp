@@ -10,7 +10,7 @@ class PubSub : public ZmqWrap {
   enum class Status { Receiving, Sending };
 
   public:
-  PubSub( std::string const& host, uint16_t port, bool isServer );
+  PubSub( std::string const& host, bool isServer );
   ~PubSub();
 
   protected:

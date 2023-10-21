@@ -4,11 +4,11 @@
 
 namespace ZmqPb {
 
-Pair::Pair( std::string const& host, uint16_t port, bool isServer ) : ZmqWrap( host, port, zmq::socket_type::pair ), isServer_( isServer ) {
+Pair::Pair( std::string const& host, bool isServer ) : ZmqWrap( host, zmq::socket_type::pair ), isServer_( isServer ) {
   if( isServer_ ) {
-    zmqSocket_.bind( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.bind( host_ );
   } else {
-    zmqSocket_.connect( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.connect( host_ );
   }
 }
 

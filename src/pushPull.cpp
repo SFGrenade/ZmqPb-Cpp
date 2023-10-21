@@ -4,12 +4,12 @@
 
 namespace ZmqPb {
 
-PushPull::PushPull( std::string const& host, uint16_t port, bool isServer )
-    : ZmqWrap( host, port, isServer ? zmq::socket_type::push : zmq::socket_type::pull ), isServer_( isServer ) {
+PushPull::PushPull( std::string const& host, bool isServer )
+    : ZmqWrap( host, isServer ? zmq::socket_type::push : zmq::socket_type::pull ), isServer_( isServer ) {
   if( isServer_ ) {
-    zmqSocket_.bind( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.bind( host_ );
   } else {
-    zmqSocket_.connect( fmt::format( "{}:{}", host_, port_ ) );
+    zmqSocket_.connect( host_ );
   }
 }
 
