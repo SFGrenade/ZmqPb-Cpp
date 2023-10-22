@@ -17,7 +17,7 @@ message MyMessage {
 
 int main() {
   // create a req-rep client on address 127.0.0.1 at port 13337
-  ZmqPb::ReqRep network( "tcp://127.0.0.1", 13337, false );
+  ZmqPb::ReqRep network( "tcp://127.0.0.1:13337", false );
 
   // flag to indicate when to stop the loop
   bool running = true;
@@ -25,6 +25,7 @@ int main() {
   // subscribe to incoming proto-messages of type `MyMessage`
   network.subscribe( new MyMessage(), [&running]( google::protobuf::Message const& message ) {
     std::cout << "My message" << std::endl;
+    // stop the network once we received any answer
     running = false;
   } );
 
