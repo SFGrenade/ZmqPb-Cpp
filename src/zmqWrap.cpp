@@ -57,9 +57,9 @@ void ZmqWrap::run() {
     zmq::message_t* msgToSend = queueToSend_.front();
     zmq::send_result_t sendResult = zmqSocket_.send( *msgToSend, zmq::send_flags::dontwait );
     if( sendResult ) {
+      didSend();
       queueToSend_.pop();
       delete msgToSend;
-      didSend();
     } else {
     }
     mutexForSendQueue_.unlock();
@@ -68,12 +68,12 @@ void ZmqWrap::run() {
     ZmqPb::Proto::Wrapper receivedWrapper;
     zmq::recv_result_t recvResult = zmqSocket_.recv( receivedReply, zmq::recv_flags::dontwait );
     if( recvResult ) {
+      didRecv();
       receivedWrapper.ParseFromString( receivedReply.to_string() );
       auto found = subscribedMessages_.find( receivedWrapper.protoname() );
       if( found != subscribedMessages_.end() ) {
         found->second.message->ParseFromString( receivedWrapper.protocontent() );
         found->second.callback( *( found->second.message ) );
-        didRecv();
       } else {
         throw std::runtime_error( "Topic '" + receivedWrapper.protoname() + "' not subscribed!" );
       }
