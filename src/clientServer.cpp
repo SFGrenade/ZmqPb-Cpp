@@ -1,8 +1,6 @@
 #ifdef ZMQ_BUILD_DRAFT_API
 #include "zmqPb/clientServer.hpp"
 
-#include <fmt/core.h>
-
 namespace ZmqPb {
 
 ClientServer::ClientServer( std::string const& host, bool isServer )

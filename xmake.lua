@@ -18,7 +18,6 @@ else
 end
 
 add_requires("cppzmq")
-add_requires("fmt")
 add_requires("protobuf-cpp")
 
 set_warnings("allextra")
@@ -52,7 +51,6 @@ target("ZmqPb")
     set_kind("static")
 
     add_packages("cppzmq")
-    add_packages("fmt")
     add_packages("protobuf-cpp")
 
     add_rules("protobuf.cpp")

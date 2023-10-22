@@ -1,7 +1,5 @@
 #include "zmqPb/reqRep.hpp"
 
-#include <fmt/core.h>
-
 namespace ZmqPb {
 
 ReqRep::ReqRep( std::string const& host, bool isServer )

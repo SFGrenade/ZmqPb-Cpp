@@ -1,7 +1,6 @@
 #ifdef ZMQ_BUILD_DRAFT_API
 #include "zmqPb/radioDish.hpp"
 
-#include <fmt/core.h>
 #include <stdexcept>
 
 namespace ZmqPb {

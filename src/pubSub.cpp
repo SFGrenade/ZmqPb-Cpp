@@ -1,7 +1,5 @@
 #include "zmqPb/pubSub.hpp"
 
-#include <fmt/core.h>
-
 namespace ZmqPb {
 
 PubSub::PubSub( std::string const& host, bool isServer )

@@ -1,7 +1,5 @@
 #include "zmqPb/zmqWrap.hpp"
 
-#include <fmt/core.h>
-
 #include "zmqWrap.pb.h"
 
 namespace ZmqPb {
@@ -77,7 +75,7 @@ void ZmqWrap::run() {
         found->second.callback( *( found->second.message ) );
         didRecv();
       } else {
-        throw std::runtime_error( fmt::format( "Topic '{}' not subscribed!", receivedWrapper.protoname() ) );
+        throw std::runtime_error( "Topic '" + receivedWrapper.protoname() + "' not subscribed!" );
       }
     } else {
     }

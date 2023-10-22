@@ -1,7 +1,5 @@
 #include "zmqPb/pushPull.hpp"
 
-#include <fmt/core.h>
-
 namespace ZmqPb {
 
 PushPull::PushPull( std::string const& host, bool isServer )

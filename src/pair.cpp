@@ -1,7 +1,5 @@
 #include "zmqPb/pair.hpp"
 
-#include <fmt/core.h>
-
 namespace ZmqPb {
 
 Pair::Pair( std::string const& host, bool isServer ) : ZmqWrap( host, zmq::socket_type::pair ), isServer_( isServer ) {
