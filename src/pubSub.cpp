@@ -2,8 +2,8 @@
 
 namespace ZmqPb {
 
-PubSub::PubSub( std::string const& host, bool isServer )
-    : ZmqWrap( host, isServer ? zmq::socket_type::pub : zmq::socket_type::sub ),
+PubSub::PubSub( std::string const& host, bool isServer, zmq::context_t* contextToUse )
+    : ZmqWrap( host, isServer ? zmq::socket_type::pub : zmq::socket_type::sub, contextToUse ),
       isServer_( isServer ),
       status_( isServer ? PubSub::Status::Sending : PubSub::Status::Receiving ) {
   if( isServer_ ) {
