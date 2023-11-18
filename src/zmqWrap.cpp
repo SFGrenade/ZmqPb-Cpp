@@ -9,7 +9,11 @@ Subscription::Subscription( google::protobuf::Message* message, std::function< v
     : message( message ), callback( callback ) {}
 
 ZmqWrap::ZmqWrap( std::string const& host, zmq::socket_type socketType, zmq::context_t* contextToUse )
-    : host_( host ), ownsContext_( contextToUse == nullptr ), zmqContext_( ownsContext_ ? new zmq::context_t( 1 ) : contextToUse ), zmqSocket_( *zmqContext_, socketType ), queueToSend_() {
+    : host_( host ),
+      ownsContext_( contextToUse == nullptr ),
+      zmqContext_( ownsContext_ ? new zmq::context_t( 1 ) : contextToUse ),
+      zmqSocket_( *zmqContext_, socketType ),
+      queueToSend_() {
   zmqSocket_.set( zmq::sockopt::linger, 0 );  // don't wait after destructor is called
 }
 
@@ -26,7 +30,7 @@ ZmqWrap::~ZmqWrap() {
   }
   subscribedMessages_.clear();
   zmqSocket_.close();
-  if ( ownsContext_ ) {
+  if( ownsContext_ ) {
     zmqContext_->shutdown();
   }
 }
