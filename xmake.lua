@@ -11,7 +11,8 @@ if is_plat( "windows" ) then
 
     add_cxflags( "/permissive-" )
 
-    set_runtimes(is_mode("debug") and "MDd" or "MD")
+    -- not needed for lib
+    --set_runtimes(is_mode("debug") and "MDd" or "MD")
 else
     set_languages( "cxx20" )
 end
@@ -25,13 +26,13 @@ if is_mode( "release" ) then
     add_defines( "NDEBUG" )
 end
 
-add_requireconfs( "*", { configs = { shared = false } } )
+add_requireconfs( "*", { configs = { shared = is_kind( "shared" ) } } )
 
 add_requires( "cppzmq" )
 add_requires( "protobuf-cpp" )
 
 target( "ZmqPb" )
-    set_kind( "static" ) -- default? i have no clue dude
+    set_kind( is_kind( "shared" ) and "shared" or "static" )
     if is_plat( "windows" ) and is_kind( "shared" ) then
         add_defines( "_DO_EXPORT_CPP_CLASSES_" )
     end
