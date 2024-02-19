@@ -5,7 +5,7 @@
 
 namespace ZmqPb {
 
-class PubSub : public ZmqWrap {
+class EXPORT PubSub : public ZmqWrap {
   public:
   enum class Status { Receiving, Sending };
 

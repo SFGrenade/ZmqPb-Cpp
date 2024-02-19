@@ -8,7 +8,7 @@
 
 namespace ZmqPb {
 
-class RadioDish : public ZmqWrap {
+class EXPORT RadioDish : public ZmqWrap {
   public:
   RadioDish( std::string const& host, bool isServer, std::vector< std::string > const& joinGroups, zmq::context_t* contextToUse = nullptr );
   ~RadioDish();

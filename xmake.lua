@@ -33,7 +33,7 @@ add_requires( "protobuf-cpp" )
 target( "ZmqPb" )
     set_kind( "static" ) -- default? i have no clue dude
     if is_plat( "windows" ) and is_kind( "shared" ) then
-        add_rules( "utils.symbols.export_all", { export_classes = true } )
+        add_defines( "_DO_EXPORT_CPP_CLASSES_" )
     end
 
     add_packages( "cppzmq" )

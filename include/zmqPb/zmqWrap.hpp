@@ -1,6 +1,16 @@
 #ifndef ZMQWRAP_HPP_
 #define ZMQWRAP_HPP_
 
+#if defined( _DO_EXPORT_CPP_CLASSES_ )
+#if defined( _MSC_VER )
+#define EXPORT __declspec( dllexport )
+#elif defined( __GNUC__ )
+#define EXPORT __attribute__( ( visibility( "default" ) ) )
+#endif
+#else
+#define EXPORT
+#endif
+
 #include <functional>
 #include <google/protobuf/message.h>
 #include <map>
@@ -11,14 +21,14 @@
 
 namespace ZmqPb {
 
-struct Subscription {
+struct EXPORT Subscription {
   Subscription();
   Subscription( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
   google::protobuf::Message* message;
   std::function< void( google::protobuf::Message const& ) > callback;
 };
 
-class ZmqWrap {
+class EXPORT ZmqWrap {
   public:
   ZmqWrap( std::string const& host, zmq::socket_type socketType, zmq::context_t* contextToUse );
   ~ZmqWrap();
