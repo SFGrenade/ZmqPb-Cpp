@@ -6,7 +6,7 @@
 
 namespace ZmqPb {
 
-class EXPORT ClientServer : public ZmqWrap {
+class ClientServer : public ZmqWrap {
   public:
   ClientServer( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~ClientServer();

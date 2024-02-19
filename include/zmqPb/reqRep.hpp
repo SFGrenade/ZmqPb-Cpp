@@ -5,7 +5,7 @@
 
 namespace ZmqPb {
 
-class EXPORT ReqRep : public ZmqWrap {
+class ReqRep : public ZmqWrap {
   public:
   enum class Status { Receiving, Sending };
 

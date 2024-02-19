@@ -5,7 +5,7 @@
 
 namespace ZmqPb {
 
-class EXPORT PushPull : public ZmqWrap {
+class PushPull : public ZmqWrap {
   public:
   PushPull( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~PushPull();
