@@ -41,6 +41,6 @@ target( "ZmqPb" )
     add_rules( "protobuf.cpp" )
 
     add_includedirs( "include", { public = true } )
-    add_headerfiles( "include/zmqPb/*.hpp" )
+    add_headerfiles( "include/(zmqPb/*.hpp)" )
     add_files( "proto/zmqPb/*.proto", { proto_public = false } )
     add_files( "src/*.cpp" )
