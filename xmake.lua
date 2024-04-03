@@ -15,7 +15,7 @@ if is_plat( "windows" ) then
 
     add_cxflags( "/permissive-" )
 
-    set_runtimes(is_mode("debug") and "MDd" or "MD")
+    --set_runtimes(is_mode("debug") and "MDd" or "MD")
 else
     set_languages( "cxx20" )
 end
@@ -35,8 +35,8 @@ add_requires( "protobuf-cpp" )
 target( "ZmqPb" )
     set_kind( "$(kind)" )
 
-    add_packages( "cppzmq" )
-    add_packages( "protobuf-cpp", { public = false } )
+    add_packages( "cppzmq", { public = true } )
+    add_packages( "protobuf-cpp", { public = true } )
 
     add_rules( "protobuf.cpp" )
 
