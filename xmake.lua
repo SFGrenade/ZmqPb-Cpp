@@ -4,27 +4,16 @@ set_version( "0.5.0", { build = "%Y%m%d", soname = true } )
 
 set_warnings( "allextra" )
 
-add_rules( "mode.debug", "mode.release" )
+add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
 add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
 
-if is_plat( "windows" ) then
-    set_languages( "cxxlatest" )
+set_languages( "c++11" )
 
+if is_plat( "windows" ) then
     add_cxflags( "/Zc:__cplusplus" )
     add_cxflags( "/Zc:preprocessor" )
 
     add_cxflags( "/permissive-" )
-
-    --set_runtimes(is_mode("debug") and "MDd" or "MD")
-else
-    set_languages( "cxx20" )
-end
-
-if is_mode( "debug" ) then
-    add_defines( "DEBUG" )
-end
-if is_mode( "release" ) then
-    add_defines( "NDEBUG" )
 end
 
 add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" } } )
