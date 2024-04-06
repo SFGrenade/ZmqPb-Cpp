@@ -46,17 +46,6 @@ jobs:
       with:
         fetch-depth: 0 # Clone the whole repository to get correct tags and branches
 
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      with:
-        version: '5.15.2'
-        host: '${{ matrix.platform.qt-os }}'
-        target: 'desktop'
-        arch: '${{ matrix.platform.qt-arch }}'
-        modules: 'debug_info'
-        set-env: true
-        cache: true
-
     # Install xmake
     - name: Setup xmake
       uses: xmake-io/github-action-setup-xmake@v1.2.2
