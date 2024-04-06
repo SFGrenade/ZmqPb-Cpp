@@ -83,8 +83,8 @@ jobs:
         path: ${{ env.XMAKE_GLOBALDIR }}/.xmake/packages
         key: ${{ steps.restore-depcache.outputs.cache-primary-key }}
 
-    - name: Build projects
-      run: xmake build -a -vD
+    - name: Build ZmqPb project
+      run: xmake build -vD ZmqPb
 
     - name: Run tests
       run: xmake test -vD
