@@ -91,15 +91,7 @@ jobs:
 
     - name: Install
       if: ${{ matrix.mode == 'releasedbg' || matrix.mode == 'release' }}
-      run: |
-        xmake install -vDo dest/
-        if [ "$RUNNER_OS" == "Linux" ]; then
-          mv ./dest/lib/*.so ./dest/bin/ || true
-        elif [ "$RUNNER_OS" == "macOS" ]; then
-          mv ./dest/lib/*.dylib ./dest/bin/ || true
-        fi
-        rm -rf dest/include/
-        rm -rf dest/lib/
+      run: xmake install -vDo dest/
       shell: bash
     
     - name: Archive result
