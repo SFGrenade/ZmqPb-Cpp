@@ -9,7 +9,7 @@ add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
 
 if is_plat( "windows" ) then
     -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
-    set_languages( "cxx14" )
+    set_languages( "cxx17" )
 
     add_cxflags( "/Zc:__cplusplus" )
     add_cxflags( "/Zc:preprocessor" )
@@ -17,7 +17,7 @@ if is_plat( "windows" ) then
     add_cxflags( "/permissive-" )
 else
     -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
-    set_languages( "c++14" )
+    set_languages( "c++17" )
 end
 
 add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" } } )
