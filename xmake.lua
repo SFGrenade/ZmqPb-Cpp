@@ -5,7 +5,7 @@ set_version( "0.5.0", { build = "%Y%m%d", soname = true } )
 set_warnings( "allextra" )
 
 add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
-add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
+--add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
 
 if is_plat( "windows" ) then
     -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
