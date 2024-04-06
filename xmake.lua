@@ -7,13 +7,17 @@ set_warnings( "allextra" )
 add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
 add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
 
-set_languages( "c++11" )
-
 if is_plat( "windows" ) then
+    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
+    set_languages( "cxx14" )
+
     add_cxflags( "/Zc:__cplusplus" )
     add_cxflags( "/Zc:preprocessor" )
 
     add_cxflags( "/permissive-" )
+else
+    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
+    set_languages( "c++14" )
 end
 
 add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" } } )
