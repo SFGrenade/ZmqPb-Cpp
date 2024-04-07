@@ -24,6 +24,8 @@ add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" }
 
 add_requires( "cppzmq" )
 add_requires( "protobuf-cpp" )
+-- protobuf needs it and somehow just doesn't publicizes the linkage
+add_requires( "utf8_range" )
 
 target( "ZmqPb" )
     set_kind( "$(kind)" )
@@ -33,6 +35,8 @@ target( "ZmqPb" )
 
     add_packages( "cppzmq", { public = true } )
     add_packages( "protobuf-cpp", { public = true } )
+    -- protobuf needs it and somehow just doesn't publicizes the linkage
+    add_packages( "utf8_range", { public = true } )
 
     add_rules( "protobuf.cpp" )
 
