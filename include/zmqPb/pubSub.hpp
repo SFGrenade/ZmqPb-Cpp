@@ -1,11 +1,12 @@
 #ifndef PUBSUB_HPP_
 #define PUBSUB_HPP_
 
+#include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class PubSub : public ZmqWrap {
+EXPORT class PubSub : public ZmqWrap {
   public:
   enum class Status { Receiving, Sending };
 

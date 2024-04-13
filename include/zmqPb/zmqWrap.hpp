@@ -9,16 +9,18 @@
 #include <string>
 #include <zmq.hpp>
 
+#include "zmqPb/_export.hpp"
+
 namespace ZmqPb {
 
-struct Subscription {
+EXPORT struct Subscription {
   Subscription();
   Subscription( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
   google::protobuf::Message* message;
   std::function< void( google::protobuf::Message const& ) > callback;
 };
 
-class ZmqWrap {
+EXPORT class ZmqWrap {
   public:
   ZmqWrap( std::string const& host, zmq::socket_type socketType, zmq::context_t* contextToUse );
   ~ZmqWrap();

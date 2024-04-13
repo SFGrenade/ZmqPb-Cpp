@@ -1,11 +1,12 @@
 #ifndef REQREP_HPP_
 #define REQREP_HPP_
 
+#include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class ReqRep : public ZmqWrap {
+EXPORT class ReqRep : public ZmqWrap {
   public:
   enum class Status { Receiving, Sending };
 

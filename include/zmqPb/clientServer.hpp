@@ -2,11 +2,12 @@
 #ifndef CLIENTSERVER_HPP_
 #define CLIENTSERVER_HPP_
 
+#include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class ClientServer : public ZmqWrap {
+EXPORT class ClientServer : public ZmqWrap {
   public:
   ClientServer( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~ClientServer();

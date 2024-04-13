@@ -20,6 +20,14 @@ else
     set_languages( "c++17" )
 end
 
+if is_mode( "debug" ) then
+    add_defines( "_DEBUG" )
+    add_defines( "DEBUG" )
+else
+    --add_defines( "_NDEBUG" )
+    --add_defines( "NDEBUG" )
+end
+
 add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" } } )
 
 add_requires( "cppzmq" )
@@ -30,8 +38,9 @@ add_requires( "utf8_range" )
 
 target( "ZmqPb" )
     set_kind( "$(kind)" )
-    if is_plat( "windows" ) and is_kind( "shared" ) and ( not is_mode( "minsizerel" ) ) then
-        add_rules( "utils.symbols.export_all", { export_classes = true } )
+    if is_plat( "windows" ) and is_kind( "shared" ) then
+        add_defines( "ZMQPB_EXPORT" )
+        --add_rules( "utils.symbols.export_all", { export_classes = true } )
     end
 
     add_packages( "cppzmq", { public = true } )
