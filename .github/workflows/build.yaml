@@ -80,7 +80,7 @@ jobs:
     - name: Configure xmake and install dependencies
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
-          xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --vs_runtime=${{ matrix.vs_runtime }}${{ matrix.mode.vs_runtime }} --yes --policies=package.precompiled:n
+          xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --vs_runtime=${{ matrix.platform.vs_runtime }}${{ matrix.mode.vs_runtime }} --yes --policies=package.precompiled:n
         else
           xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --yes --policies=package.precompiled:n
         fi
