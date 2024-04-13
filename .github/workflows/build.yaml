@@ -84,6 +84,7 @@ jobs:
         else
           xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --yes --policies=package.precompiled:n
         fi
+      shell: bash
 
     # Save dependencies
     - name: Save cached xmake dependencies
