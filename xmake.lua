@@ -24,20 +24,20 @@ add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" }
 
 add_requires( "cppzmq" )
 add_requires( "protobuf-cpp" )
--- protobuf needs it and somehow just doesn't publicizes the linkage
---add_requires( "abseil" )
+-- protobuf-* needs it and somehow just doesn't publicizes the linkage
+add_requires( "abseil" )
 add_requires( "utf8_range" )
 
 target( "ZmqPb" )
     set_kind( "$(kind)" )
-    if is_plat( "windows" ) and is_kind( "shared" ) then
+    if is_plat( "windows" ) and is_kind( "shared" ) and ( not is_mode( "minsizerel" ) ) then
         add_rules( "utils.symbols.export_all", { export_classes = true } )
     end
 
     add_packages( "cppzmq", { public = true } )
     add_packages( "protobuf-cpp", { public = true } )
-    -- protobuf needs it and somehow just doesn't publicizes the linkage
-    --add_packages( "abseil", { public = true } )
+    -- protobuf-* needs it and somehow just doesn't publicizes the linkage
+    add_packages( "abseil", { public = true } )
     add_packages( "utf8_range", { public = true } )
 
     add_rules( "protobuf.cpp" )
