@@ -22,7 +22,7 @@ jobs:
         - { runner: ubuntu-latest,  os: linux,   arch: x86_64, archive_ext: .tar.gz }
         - { runner: macos-latest,   os: macos,   arch: x86_64, archive_ext: .tar.gz }
         #- { runner: macos-latest,   os: macos,   arch: arm64,  archive_ext: .tar.gz }
-        mode: [debug, releasedbg]
+        mode: [debug, release, releasedbg, minsizerel]
         libkind: [shared, static]
 
     runs-on: ${{ matrix.platform.runner }}
@@ -90,12 +90,10 @@ jobs:
       run: xmake test -vD
 
     - name: Install
-      if: ${{ matrix.mode == 'releasedbg' || matrix.mode == 'release' }}
       run: xmake install -vDo dest/
       shell: bash
     
     - name: Archive result
-      if: ${{ matrix.mode == 'releasedbg' || matrix.mode == 'release' }}
       uses: ihiroky/archive-action@v1
       with:
         root_dir: dest
@@ -103,7 +101,6 @@ jobs:
         verbose: true
 
     - name: Compute checksum of archive
-      if: ${{ matrix.mode == 'releasedbg' || matrix.mode == 'release' }}
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
           sha256sum -b "$OUTPUT_FILE" > "$OUTPUT_FILE.sha256"
@@ -115,7 +112,7 @@ jobs:
     # Release tags (for tags)
     - name: Upload binaries to release (Tag)
       uses: svenstaro/upload-release-action@v2
-      if: ${{ startsWith(github.event.ref, 'refs/tags/') && ( matrix.mode == 'releasedbg' || matrix.mode == 'release' ) }}
+      if: ${{ startsWith(github.event.ref, 'refs/tags/')
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ${{ env.OUTPUT_FILE }}
@@ -125,7 +122,7 @@ jobs:
 
     - name: Upload checksum to release (Tag)
       uses: svenstaro/upload-release-action@v2
-      if: ${{ startsWith(github.event.ref, 'refs/tags/') && ( matrix.mode == 'releasedbg' || matrix.mode == 'release' ) }}
+      if: ${{ startsWith(github.event.ref, 'refs/tags/')
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ${{ env.OUTPUT_FILE }}.sha256
