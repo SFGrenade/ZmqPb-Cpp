@@ -77,14 +77,13 @@ jobs:
         path: ${{ env.XMAKE_GLOBALDIR }}/.xmake/packages
         key: ${{ matrix.platform.os }}-${{ matrix.platform.arch }}-${{ matrix.mode.name }}-${{ steps.dep_hash.outputs.hash }}-W${{ steps.cache_key.outputs.key }}
 
-    - name: Configure xmake and install dependencies
-      run: |
-        if [ "$RUNNER_OS" == "Windows" ]; then
-          cmd /c xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --vs_runtime=${{ matrix.platform.vs_runtime }}${{ matrix.mode.vs_runtime }} --yes --policies=package.precompiled:n
-        else
-          xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --yes --policies=package.precompiled:n
-        fi
-      shell: bash
+    - name: Configure xmake and install dependencies (Unix)
+      if: ${{ matrix.platform.os != 'windows' }}
+      run: xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --yes --policies=package.precompiled:n
+
+    - name: Configure xmake and install dependencies (Windows)
+      if: ${{ matrix.platform.os == 'windows' }}
+      run: xmake config -vD --arch=${{ matrix.platform.arch }} --mode=${{ matrix.mode.name }} --kind=${{ matrix.libkind }} --vs_runtime=${{ matrix.platform.vs_runtime }}${{ matrix.mode.vs_runtime }} --yes --policies=package.precompiled:n
 
     # Save dependencies
     - name: Save cached xmake dependencies
