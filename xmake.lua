@@ -8,7 +8,7 @@ add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
 --add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
 
 if is_plat( "windows" ) then
-    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
+    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types
     set_languages( "cxx17" )
 
     add_cxflags( "/Zc:__cplusplus" )
@@ -16,16 +16,8 @@ if is_plat( "windows" ) then
 
     add_cxflags( "/permissive-" )
 else
-    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14
+    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types
     set_languages( "c++17" )
-end
-
-if is_mode( "debug" ) then
-    add_defines( "_DEBUG" )
-    add_defines( "DEBUG" )
-else
-    --add_defines( "_NDEBUG" )
-    --add_defines( "NDEBUG" )
 end
 
 add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" } } )
