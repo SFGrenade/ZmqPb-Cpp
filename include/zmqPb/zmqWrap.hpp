@@ -45,9 +45,17 @@ class ZMQPB_EXPORT ZmqWrap {
 
   std::mutex mutexForSendQueue_;
   std::queue< zmq::message_t* > queueToSend_;
-  std::map< std::string, Subscription > subscribedMessages_;
+  std::map< std::string, ZmqPb::Subscription > subscribedMessages_;
 };
 
 }  // namespace ZmqPb
+
+#if defined( ZMQPB_DO_EXPORT_WINDOWS )
+
+template class ZMQPB_EXPORT std::function< void( google::protobuf::Message const& ) >;
+template class ZMQPB_EXPORT std::queue< zmq::message_t* >;
+template class ZMQPB_EXPORT std::map< std::string, ZmqPb::Subscription >;
+
+#endif
 
 #endif /* ZMQWRAP_HPP_ */
