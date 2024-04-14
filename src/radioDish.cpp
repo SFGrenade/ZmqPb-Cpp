@@ -8,12 +8,12 @@ namespace ZmqPb {
 RadioDish::RadioDish( std::string const& host, bool isServer, std::vector< std::string > const& joinGroups, zmq::context_t* contextToUse )
     : ZmqWrap( host, isServer ? zmq::socket_type::server : zmq::socket_type::client, contextToUse ), isServer_( isServer ) {
   if( isServer_ ) {
-    zmqSocket_.bind( host_ );
+    getSocketPtr()->bind( host );
   } else {
     for( std::string joinGroup : joinGroups ) {
-      zmqSocket_.join( joinGroup );
+      getSocketPtr()->join( joinGroup );
     }
-    zmqSocket_.connect( host_ );
+    getSocketPtr()->connect( host );
   }
 }
 

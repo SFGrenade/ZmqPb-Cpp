@@ -10,18 +10,14 @@
 #include <zmq.hpp>
 
 #include "zmqPb/_export.hpp"
+#include "zmqPb/subscription.hpp"
 
 namespace ZmqPb {
 
-struct ZMQPB_EXPORT Subscription {
-  Subscription();
-  Subscription( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
-  google::protobuf::Message* message;
-  std::function< void( google::protobuf::Message const& ) > callback;
-};
-
 class ZMQPB_EXPORT ZmqWrap {
   public:
+  ZmqWrap() = delete;
+  ZmqWrap( ZmqWrap const& ) = delete;
   ZmqWrap( std::string const& host, zmq::socket_type socketType, zmq::context_t* contextToUse );
   ~ZmqWrap();
 
@@ -36,26 +32,13 @@ class ZMQPB_EXPORT ZmqWrap {
   virtual bool canRecv() const = 0;
   virtual void didRecv() = 0;
 
-  protected:
-  std::string host_;
+  zmq::socket_t* getSocketPtr();
 
-  bool ownsContext_;
-  zmq::context_t* zmqContext_;
-  zmq::socket_t zmqSocket_;
-
-  std::mutex mutexForSendQueue_;
-  std::queue< zmq::message_t* > queueToSend_;
-  std::map< std::string, ZmqPb::Subscription > subscribedMessages_;
+  private:
+  class impl;
+  impl* pimpl;
 };
 
 }  // namespace ZmqPb
-
-#if defined( ZMQPB_DO_EXPORT_WINDOWS )
-
-template class ZMQPB_EXPORT std::function< void( google::protobuf::Message const& ) >;
-template class ZMQPB_EXPORT std::queue< zmq::message_t* >;
-template class ZMQPB_EXPORT std::map< std::string, ZmqPb::Subscription >;
-
-#endif
 
 #endif /* ZMQWRAP_HPP_ */

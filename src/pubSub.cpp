@@ -7,10 +7,10 @@ PubSub::PubSub( std::string const& host, bool isServer, zmq::context_t* contextT
       isServer_( isServer ),
       status_( isServer ? PubSub::Status::Sending : PubSub::Status::Receiving ) {
   if( isServer_ ) {
-    zmqSocket_.bind( host_ );
+    getSocketPtr()->bind( host );
   } else {
-    zmqSocket_.set( zmq::sockopt::subscribe, "" );  // subscribe to all incoming messages
-    zmqSocket_.connect( host_ );
+    getSocketPtr()->set( zmq::sockopt::subscribe, "" );  // subscribe to all incoming messages
+    getSocketPtr()->connect( host );
   }
 }
 

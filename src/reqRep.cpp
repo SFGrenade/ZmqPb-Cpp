@@ -7,9 +7,9 @@ ReqRep::ReqRep( std::string const& host, bool isServer, zmq::context_t* contextT
       isServer_( isServer ),
       status_( isServer ? ReqRep::Status::Receiving : ReqRep::Status::Sending ) {
   if( isServer_ ) {
-    zmqSocket_.bind( host_ );
+    getSocketPtr()->bind( host );
   } else {
-    zmqSocket_.connect( host_ );
+    getSocketPtr()->connect( host );
   }
 }
 
