@@ -13,14 +13,14 @@
 
 namespace ZmqPb {
 
-struct EXPORT Subscription {
+struct ZMQPB_EXPORT Subscription {
   Subscription();
   Subscription( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
   google::protobuf::Message* message;
   std::function< void( google::protobuf::Message const& ) > callback;
 };
 
-class EXPORT ZmqWrap {
+class ZMQPB_EXPORT ZmqWrap {
   public:
   ZmqWrap( std::string const& host, zmq::socket_type socketType, zmq::context_t* contextToUse );
   ~ZmqWrap();

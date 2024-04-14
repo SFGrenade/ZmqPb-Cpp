@@ -1,21 +1,21 @@
-#ifdef ZMQPB_EXPORT
-
-#if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define EXPORT __attribute__( ( dllexport ) )
-#else
-#define EXPORT __declspec( dllexport )  // Note: actually gcc seems to also supports this syntax.
-#endif
-#else
-#if __GNUC__ >= 4
-#define EXPORT __attribute__( ( visibility( "default" ) ) )
-#else
-#define EXPORT
-#endif
+#if defined( ZMQPB_EXPORT )
+#error "ZMQPB_EXPORT already defined"
 #endif
 
+#if defined( ZMQPB_DO_EXPORT_LINUX )
+
+#define ZMQPB_EXPORT __attribute__( ( dllexport ) )
+
+#elif defined( ZMQPB_DO_EXPORT_MACOSX )
+
+#define ZMQPB_EXPORT __attribute__( ( visibility( "default" ) ) )
+
+#elif defined( ZMQPB_DO_EXPORT_WINDOWS )
+
+#define ZMQPB_EXPORT __declspec( dllexport )
+
 #else
 
-#define EXPORT
+#define ZMQPB_EXPORT
 
-#endif /* ZMQPB_EXPORT */
+#endif

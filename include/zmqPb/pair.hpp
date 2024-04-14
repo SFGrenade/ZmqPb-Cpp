@@ -6,7 +6,7 @@
 
 namespace ZmqPb {
 
-class EXPORT Pair : public ZmqWrap {
+class ZMQPB_EXPORT Pair : public ZmqWrap {
   public:
   Pair( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~Pair();

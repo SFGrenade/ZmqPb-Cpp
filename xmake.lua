@@ -33,7 +33,13 @@ target( "ZmqPb" )
     set_default( true )
 
     if is_kind( "shared" ) then
-        add_defines( "ZMQPB_EXPORT" )
+        if is_plat( "linux" ) then
+            add_defines( "ZMQPB_DO_EXPORT_LINUX" )
+        elseif is_plat( "macosx" ) then
+            add_defines( "ZMQPB_DO_EXPORT_MACOSX" )
+        elseif is_plat( "windows" ) then
+            add_defines( "ZMQPB_DO_EXPORT_WINDOWS" )
+        end
     end
 
     add_packages( "cppzmq", { public = true } )
