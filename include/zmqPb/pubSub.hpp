@@ -8,9 +8,6 @@ namespace ZmqPb {
 
 class ZMQPB_EXPORT PubSub : public ZmqWrap {
   public:
-  enum class Status { Receiving, Sending };
-
-  public:
   PubSub( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~PubSub();
 
@@ -19,10 +16,6 @@ class ZMQPB_EXPORT PubSub : public ZmqWrap {
   virtual void didSend() override;
   virtual bool canRecv() const override;
   virtual void didRecv() override;
-
-  private:
-  bool isServer_;
-  PubSub::Status status_;
 };
 
 }  // namespace ZmqPb

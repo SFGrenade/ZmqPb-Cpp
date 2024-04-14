@@ -6,15 +6,13 @@
 namespace ZmqPb {
 
 RadioDish::RadioDish( std::string const& host, bool isServer, std::vector< std::string > const& joinGroups, zmq::context_t* contextToUse )
-    : ZmqWrap( host, isServer ? zmq::socket_type::server : zmq::socket_type::client, contextToUse ), isServer_( isServer ) {
-  if( isServer_ ) {
-    getSocketPtr()->bind( host );
-  } else {
+    : ZmqWrap( host, isServer, isServer ? zmq::socket_type::server : zmq::socket_type::client, contextToUse ) {
+  if( !getIsServer() ) {
     for( std::string joinGroup : joinGroups ) {
       getSocketPtr()->join( joinGroup );
     }
-    getSocketPtr()->connect( host );
   }
+  connectSocket();
 }
 
 RadioDish::~RadioDish() {}

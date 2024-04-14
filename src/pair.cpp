@@ -2,13 +2,8 @@
 
 namespace ZmqPb {
 
-Pair::Pair( std::string const& host, bool isServer, zmq::context_t* contextToUse )
-    : ZmqWrap( host, zmq::socket_type::pair, contextToUse ), isServer_( isServer ) {
-  if( isServer_ ) {
-    getSocketPtr()->bind( host );
-  } else {
-    getSocketPtr()->connect( host );
-  }
+Pair::Pair( std::string const& host, bool isServer, zmq::context_t* contextToUse ) : ZmqWrap( host, isServer, zmq::socket_type::pair, contextToUse ) {
+  connectSocket();
 }
 
 Pair::~Pair() {}

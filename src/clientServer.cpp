@@ -4,12 +4,8 @@
 namespace ZmqPb {
 
 ClientServer::ClientServer( std::string const& host, bool isServer, zmq::context_t* contextToUse )
-    : ZmqWrap( host, isServer ? zmq::socket_type::server : zmq::socket_type::client, contextToUse ), isServer_( isServer ) {
-  if( isServer_ ) {
-    getSocketPtr()->bind( host );
-  } else {
-    getSocketPtr()->connect( host );
-  }
+    : ZmqWrap( host, isServer, isServer ? zmq::socket_type::server : zmq::socket_type::client, contextToUse ) {
+  connectSocket();
 }
 
 ClientServer::~ClientServer() {}

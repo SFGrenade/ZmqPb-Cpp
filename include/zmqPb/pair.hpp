@@ -16,9 +16,6 @@ class ZMQPB_EXPORT Pair : public ZmqWrap {
   virtual void didSend() override;
   virtual bool canRecv() const override;
   virtual void didRecv() override;
-
-  private:
-  bool isServer_;
 };
 
 }  // namespace ZmqPb

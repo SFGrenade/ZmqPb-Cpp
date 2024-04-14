@@ -7,6 +7,7 @@ namespace ZmqPb {
 class ZmqWrap::impl {
   public:
   std::string host_;
+  bool isServer_;
 
   bool ownsContext_;
   zmq::context_t* zmqContext_;
@@ -17,8 +18,9 @@ class ZmqWrap::impl {
   std::map< std::string, Subscription > subscribedMessages_;
 };
 
-ZmqWrap::ZmqWrap( std::string const& host, zmq::socket_type socketType, zmq::context_t* contextToUse ) : pimpl( new impl ) {
+ZmqWrap::ZmqWrap( std::string const& host, bool isServer, zmq::socket_type socketType, zmq::context_t* contextToUse ) : pimpl( new impl ) {
   pimpl->host_ = host;
+  pimpl->isServer_ = isServer;
   pimpl->ownsContext_ = contextToUse == nullptr;
   pimpl->zmqContext_ = pimpl->ownsContext_ ? new zmq::context_t( 1 ) : contextToUse;
   pimpl->zmqSocket_ = zmq::socket_t( *pimpl->zmqContext_, socketType );
@@ -91,7 +93,19 @@ void ZmqWrap::run() {
   }
 }
 
-zmq::socket_t* ZmqWrap::getSocketPtr() {
+void ZmqWrap::connectSocket() {
+  if( pimpl->isServer_ ) {
+    pimpl->zmqSocket_.bind( pimpl->host_ );
+  } else {
+    pimpl->zmqSocket_.connect( pimpl->host_ );
+  }
+}
+
+bool ZmqWrap::getIsServer() const {
+  return pimpl->isServer_;
+}
+
+zmq::socket_t* ZmqWrap::getSocketPtr() const {
   return &pimpl->zmqSocket_;
 }
 

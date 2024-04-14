@@ -21,7 +21,6 @@ class ZMQPB_EXPORT ReqRep : public ZmqWrap {
   virtual void didRecv() override;
 
   private:
-  bool isServer_;
   ReqRep::Status status_;
 };
 

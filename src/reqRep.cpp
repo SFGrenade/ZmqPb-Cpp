@@ -3,14 +3,9 @@
 namespace ZmqPb {
 
 ReqRep::ReqRep( std::string const& host, bool isServer, zmq::context_t* contextToUse )
-    : ZmqWrap( host, isServer ? zmq::socket_type::rep : zmq::socket_type::req, contextToUse ),
-      isServer_( isServer ),
+    : ZmqWrap( host, isServer, isServer ? zmq::socket_type::rep : zmq::socket_type::req, contextToUse ),
       status_( isServer ? ReqRep::Status::Receiving : ReqRep::Status::Sending ) {
-  if( isServer_ ) {
-    getSocketPtr()->bind( host );
-  } else {
-    getSocketPtr()->connect( host );
-  }
+  connectSocket();
 }
 
 ReqRep::~ReqRep() {}

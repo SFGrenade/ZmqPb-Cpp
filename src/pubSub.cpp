@@ -3,27 +3,23 @@
 namespace ZmqPb {
 
 PubSub::PubSub( std::string const& host, bool isServer, zmq::context_t* contextToUse )
-    : ZmqWrap( host, isServer ? zmq::socket_type::pub : zmq::socket_type::sub, contextToUse ),
-      isServer_( isServer ),
-      status_( isServer ? PubSub::Status::Sending : PubSub::Status::Receiving ) {
-  if( isServer_ ) {
-    getSocketPtr()->bind( host );
-  } else {
+    : ZmqWrap( host, isServer, isServer ? zmq::socket_type::pub : zmq::socket_type::sub, contextToUse ) {
+  if( !getIsServer() ) {
     getSocketPtr()->set( zmq::sockopt::subscribe, "" );  // subscribe to all incoming messages
-    getSocketPtr()->connect( host );
   }
+  connectSocket();
 }
 
 PubSub::~PubSub() {}
 
 bool PubSub::canSend() const {
-  return status_ == PubSub::Status::Sending;
+  return getIsServer();
 }
 
 void PubSub::didSend() {}
 
 bool PubSub::canRecv() const {
-  return status_ == PubSub::Status::Receiving;
+  return !getIsServer();
 }
 
 void PubSub::didRecv() {}

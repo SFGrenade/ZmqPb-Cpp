@@ -60,7 +60,7 @@ for _, file in ipairs( os.files( "test/*.cpp" ) ) do
     target( name )
         set_kind( "binary" )
         set_default( false )
-        add_deps(  "ZmqPb", { public = true } )
+        add_deps(  "ZmqPb", { shared = get_config( "kind" ) == "shared", public = true } )
         add_files( "test/" .. name .. ".cpp" )
         add_tests( "default" )
 end
