@@ -30,6 +30,8 @@ add_requires( "utf8_range" )
 
 target( "ZmqPb" )
     set_kind( "$(kind)" )
+    set_default( true )
+
     if is_plat( "windows" ) and is_kind( "shared" ) then
         add_defines( "ZMQPB_EXPORT" )
         --add_rules( "utils.symbols.export_all", { export_classes = true } )
@@ -47,3 +49,14 @@ target( "ZmqPb" )
     add_headerfiles( "include/(zmqPb/*.hpp)" )
     add_files( "proto/zmqPb/*.proto", { proto_public = false } )
     add_files( "src/*.cpp" )
+
+for _, file in ipairs( os.files( "test/*.cpp" ) ) do
+    local name = path.basename( file )
+    target( name )
+        set_kind( "binary" )
+        set_default( false )
+        set_group( "TESTS" )
+        add_deps(  "ZmqPb", { public = true } )
+        add_files( "test/" .. name .. ".cpp" )
+        add_tests( "default" )
+end
