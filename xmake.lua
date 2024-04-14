@@ -54,7 +54,6 @@ for _, file in ipairs( os.files( "test/*.cpp" ) ) do
     target( name )
         set_kind( "binary" )
         set_default( false )
-        set_group( "TESTS" )
         add_deps(  "ZmqPb", { public = true } )
         add_files( "test/" .. name .. ".cpp" )
         add_tests( "default" )
