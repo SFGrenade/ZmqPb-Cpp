@@ -1,7 +1,3 @@
-#if defined( ZMQPB_EXPORT )
-#error "ZMQPB_EXPORT already defined"
-#endif
-
 #if defined( ZMQPB_DO_EXPORT_LINUX )
 
 #define ZMQPB_EXPORT __attribute__( ( dllexport ) )
