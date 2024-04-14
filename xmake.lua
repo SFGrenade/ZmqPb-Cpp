@@ -32,9 +32,8 @@ target( "ZmqPb" )
     set_kind( "$(kind)" )
     set_default( true )
 
-    if is_plat( "windows" ) and is_kind( "shared" ) then
+    if is_kind( "shared" ) then
         add_defines( "ZMQPB_EXPORT" )
-        --add_rules( "utils.symbols.export_all", { export_classes = true } )
     end
 
     add_packages( "cppzmq", { public = true } )
