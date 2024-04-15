@@ -92,13 +92,22 @@ jobs:
     - name: Build all targets
       run: xmake build -vD -a
 
-    - name: Run tests
+    - name: Run tests (non-windows)
+      if: ${{ matrix.platform.os != 'windows' }}
       run: xmake run -vD --group=TESTS
+
+    - name: Prepare tests (windows)
+      if: ${{ matrix.platform.os == 'windows' }}
+      run: xmake install -vDo executing_tests/ --group=TESTS
+
+    - name: Run tests (windows)
+      if: ${{ matrix.platform.os == 'windows' }}
+      run: 'cd executing_tests/bin/ && ZmqPb_Tests.exe'
+      shell: cmd
 
     - name: Install
       run: xmake install -vDo dest/ --group=LIBS
-      shell: bash
-    
+
     - name: Archive result
       uses: ihiroky/archive-action@v1
       with:

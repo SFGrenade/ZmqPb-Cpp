@@ -68,4 +68,8 @@ target( "ZmqPb_Tests" )
     add_packages( "gtest", { public = true } )
 
     add_files( "test/*.cpp" )
-    add_tests( "default" )
+    if is_plat( "windows" ) then
+        --add_tests( "default" )
+    else
+        add_tests( "default" )
+    end
