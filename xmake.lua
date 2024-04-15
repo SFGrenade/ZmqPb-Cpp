@@ -31,6 +31,7 @@ add_requires( "utf8_range" )
 target( "ZmqPb" )
     set_kind( "$(kind)" )
     set_default( true )
+    set_grouo( "LIBS" )
 
     if is_kind( "shared" ) then
         if is_plat( "linux" ) then
@@ -60,6 +61,7 @@ for _, file in ipairs( os.files( "test/*.cpp" ) ) do
     target( name )
         set_kind( "binary" )
         set_default( false )
+        set_group( "TESTS" )
         add_deps(  "ZmqPb", { shared = get_config( "kind" ) == "shared", public = true } )
         add_files( "test/" .. name .. ".cpp" )
         add_tests( "default" )
