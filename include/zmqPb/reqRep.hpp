@@ -12,7 +12,7 @@ class ZMQPB_EXPORT ReqRep : public ZmqWrap {
 
   public:
   ReqRep( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
-  ~ReqRep();
+  ~ReqRep() override;
 
   protected:
   virtual bool canSend() const override;

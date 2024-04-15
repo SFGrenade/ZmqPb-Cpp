@@ -9,7 +9,7 @@ namespace ZmqPb {
 class ZMQPB_EXPORT Pair : public ZmqWrap {
   public:
   Pair( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
-  ~Pair();
+  ~Pair() override;
 
   protected:
   virtual bool canSend() const override;

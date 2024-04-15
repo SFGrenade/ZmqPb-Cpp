@@ -40,6 +40,8 @@ ZmqWrap::~ZmqWrap() {
   if( pimpl->ownsContext_ ) {
     pimpl->zmqContext_->shutdown();
   }
+  delete pimpl;
+  pimpl = nullptr;
 }
 
 void ZmqWrap::subscribe( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback ) {

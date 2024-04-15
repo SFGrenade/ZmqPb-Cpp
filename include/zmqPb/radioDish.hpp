@@ -12,7 +12,7 @@ namespace ZmqPb {
 class ZMQPB_EXPORT RadioDish : public ZmqWrap {
   public:
   RadioDish( std::string const& host, bool isServer, std::vector< std::string > const& joinGroups, zmq::context_t* contextToUse = nullptr );
-  ~RadioDish();
+  ~RadioDish() override;
 
   virtual void sendMessage( google::protobuf::Message* message, std::string const& group ) override;
   virtual void sendMessage( google::protobuf::Message* message ) override;

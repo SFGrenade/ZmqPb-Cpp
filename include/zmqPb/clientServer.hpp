@@ -10,7 +10,7 @@ namespace ZmqPb {
 class ZMQPB_EXPORT ClientServer : public ZmqWrap {
   public:
   ClientServer( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
-  ~ClientServer();
+  ~ClientServer() override;
 
   protected:
   virtual bool canSend() const override;

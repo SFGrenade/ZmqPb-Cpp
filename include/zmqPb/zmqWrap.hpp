@@ -19,7 +19,7 @@ class ZMQPB_EXPORT ZmqWrap {
   ZmqWrap() = delete;
   ZmqWrap( ZmqWrap const& ) = delete;
   ZmqWrap( std::string const& host, bool isServer, zmq::socket_type socketType, zmq::context_t* contextToUse );
-  ~ZmqWrap();
+  virtual ~ZmqWrap();
 
   void subscribe( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
   virtual void sendMessage( google::protobuf::Message* message );
