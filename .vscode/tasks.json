@@ -7,6 +7,11 @@
       "label": "Remove Build Logs",
       "type": "shell",
       "command": "rm _build_logs\\*",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -17,6 +22,11 @@
       ],
       "type": "shell",
       "command": "xmake global --theme=plain >_build_logs\\00_set_theme.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -26,7 +36,12 @@
         "XMake switch theme"
       ],
       "type": "shell",
-      "command": "xmake config --import=.vscode/xmakeConfig.debug.conf -vD >_build_logs\\01_configure_debug.txt 2>&1",
+      "command": "xmake config --import=.vscode/xmakeConfig.debug.conf -vD -y >_build_logs\\01_configure_debug.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -36,13 +51,23 @@
         "XMake switch theme"
       ],
       "type": "shell",
-      "command": "xmake config --import=.vscode/xmakeConfig.release.conf -vD >_build_logs\\01_configure_release.txt 2>&1",
+      "command": "xmake config --import=.vscode/xmakeConfig.release.conf -vD -y >_build_logs\\01_configure_release.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
       "label": "XMake build",
       "type": "shell",
       "command": "xmake build -a -vD >_build_logs\\02_build.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -74,7 +99,12 @@
     {
       "label": "XMake test",
       "type": "shell",
-      "command": "xmake test -vD >_build_logs\\05_test.txt 2>&1",
+      "command": "xmake run -vD -g TESTS >_build_logs\\05_test.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -106,7 +136,12 @@
     {
       "label": "XMake package",
       "type": "shell",
-      "command": "xmake package -vD -ao E:\\xmake_packages >_build_logs\\10_package.txt 2>&1",
+      "command": "xmake package -vD -o E:\\xmake_packages -g LIBS >_build_logs\\10_package.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -125,7 +160,12 @@
     {
       "label": "XMake install",
       "type": "shell",
-      "command": "xmake install -vD -ao E:\\System_Simulator >_build_logs\\20_install.txt 2>&1",
+      "command": "xmake install -vD -o E:\\System_Simulator -g LIBS >_build_logs\\20_install.txt 2>&1",
+      "options": {
+        "env": {
+          "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
+        }
+      },
       "problemMatcher": []
     },
     {
@@ -134,62 +174,6 @@
       "dependsOn": [
         "XMake test release (x64)",
         "XMake install"
-      ],
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      }
-    },
-    {
-      "label": "XMake run Audio-Interface-Exe",
-      "type": "shell",
-      "command": "xmake run Audio-Interface-Exe",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "XMake test release (x64)"
-      ],
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      }
-    },
-    {
-      "label": "XMake run Login-Server-Exe",
-      "type": "shell",
-      "command": "xmake run Login-Server-Exe",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "XMake test release (x64)"
-      ],
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      }
-    },
-    {
-      "label": "XMake run Settings-Interface-Exe",
-      "type": "shell",
-      "command": "xmake run Settings-Interface-Exe",
-      "dependsOrder": "sequence",
-      "dependsOn": [
-        "XMake test release (x64)"
-      ],
-      "problemMatcher": [],
-      "group": {
-        "kind": "build",
-        "isDefault": false
-      }
-    },
-    {
-      "label": "XMake run release (x64)",
-      "dependsOrder": "parallel",
-      "dependsOn": [
-        "XMake run Audio-Interface-Exe",
-        "XMake run Login-Server-Exe",
-        "XMake run Settings-Interface-Exe"
       ],
       "problemMatcher": [],
       "group": {

@@ -93,7 +93,7 @@ jobs:
       run: xmake build -vD -a
 
     - name: Run tests
-      run: xmake test -vD
+      run: xmake run -vD --group=TESTS
 
     - name: Install
       run: xmake install -vDo dest/ --group=LIBS

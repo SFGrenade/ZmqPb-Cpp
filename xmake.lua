@@ -25,8 +25,11 @@ add_requireconfs( "*", { configs = { shared = get_config( "kind" ) == "shared" }
 add_requires( "cppzmq" )
 add_requires( "protobuf-cpp" )
 -- protobuf-* needs it and somehow just doesn't publicizes the linkage
-add_requires( "abseil" )
-add_requires( "utf8_range" )
+--add_requires( "abseil" )
+--add_requires( "utf8_range" )
+
+-- test framework
+add_requires( "gtest" )
 
 target( "ZmqPb" )
     set_kind( "$(kind)" )
@@ -46,8 +49,8 @@ target( "ZmqPb" )
     add_packages( "cppzmq", { public = true } )
     add_packages( "protobuf-cpp", { public = true } )
     -- protobuf-* needs it and somehow just doesn't publicizes the linkage
-    add_packages( "abseil", { public = true } )
-    add_packages( "utf8_range", { public = true } )
+    --add_packages( "abseil", { public = true } )
+    --add_packages( "utf8_range", { public = true } )
 
     add_rules( "protobuf.cpp" )
 
@@ -56,13 +59,13 @@ target( "ZmqPb" )
     add_files( "proto/zmqPb/*.proto", { proto_public = false } )
     add_files( "src/*.cpp" )
 
-for _, file in ipairs( os.files( "test/*.cpp" ) ) do
-    local name = path.basename( file )
-    target( name )
-        set_kind( "binary" )
-        set_default( false )
-        set_group( "TESTS" )
-        add_deps(  "ZmqPb", { shared = get_config( "kind" ) == "shared", public = true } )
-        add_files( "test/" .. name .. ".cpp" )
-        add_tests( "default" )
-end
+target( "ZmqPb_Tests" )
+    set_kind( "binary" )
+    set_default( false )
+    set_group( "TESTS" )
+
+    add_deps(  "ZmqPb", { shared = get_config( "kind" ) == "shared", public = true } )
+    add_packages( "gtest", { public = true } )
+
+    add_files( "test/*.cpp" )
+    add_tests( "default" )
