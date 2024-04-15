@@ -26,7 +26,7 @@ add_requires( "cppzmq" )
 add_requires( "protobuf-cpp" )
 -- protobuf-* needs it and somehow just doesn't publicizes the linkage
 --add_requires( "abseil" )
---add_requires( "utf8_range" )
+add_requires( "utf8_range" )
 
 -- test framework
 add_requires( "gtest" )
@@ -50,7 +50,7 @@ target( "ZmqPb" )
     add_packages( "protobuf-cpp", { public = true } )
     -- protobuf-* needs it and somehow just doesn't publicizes the linkage
     --add_packages( "abseil", { public = true } )
-    --add_packages( "utf8_range", { public = true } )
+    add_packages( "utf8_range", { public = true } )
 
     add_rules( "protobuf.cpp" )
 
