@@ -31,7 +31,7 @@ add_requires( "utf8_range" )
 target( "ZmqPb" )
     set_kind( "$(kind)" )
     set_default( true )
-    set_grouo( "LIBS" )
+    set_group( "LIBS" )
 
     if is_kind( "shared" ) then
         if is_plat( "linux" ) then
