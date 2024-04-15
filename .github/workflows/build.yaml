@@ -96,7 +96,7 @@ jobs:
       run: xmake test -vD
 
     - name: Install
-      run: xmake install -vDo dest/ ZmqPb
+      run: xmake install -vDo dest/ --group=LIBS
       shell: bash
     
     - name: Archive result
