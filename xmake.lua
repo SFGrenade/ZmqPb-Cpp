@@ -64,7 +64,7 @@ target( "ZmqPb_Tests" )
     set_default( false )
     set_group( "TESTS" )
 
-    add_deps(  "ZmqPb", { shared = get_config( "kind" ) == "shared", public = true } )
+    add_deps( "ZmqPb", { shared = get_config( "kind" ) == "shared", public = true } )
     add_packages( "gtest", { public = true } )
 
     add_files( "test/*.cpp" )
