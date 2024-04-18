@@ -52,7 +52,7 @@ jobs:
     - name: Setup xmake
       uses: xmake-io/github-action-setup-xmake@v1.2.2
       with:
-        xmake-version: latest
+        xmake-version: branch@dev
         actions-cache-folder: .xmake-cache-W${{ steps.cache_key.outputs.key }}
 
     # Update xmake repository (in order to have the file that will be cached)
@@ -92,18 +92,8 @@ jobs:
     - name: Build all targets
       run: xmake build -vD -a
 
-    - name: Run tests (non-windows)
-      if: ${{ matrix.platform.os != 'windows' }}
+    - name: Run tests
       run: xmake run -vD --group=TESTS
-
-    - name: Prepare tests (windows)
-      if: ${{ matrix.platform.os == 'windows' }}
-      run: xmake install -vDo executing_tests/ --group=TESTS
-
-    - name: Run tests (windows)
-      if: ${{ matrix.platform.os == 'windows' }}
-      run: 'cd executing_tests/bin/ && ZmqPb_Tests.exe'
-      shell: cmd
 
     - name: Install
       run: xmake install -vDo dest/ --group=LIBS
