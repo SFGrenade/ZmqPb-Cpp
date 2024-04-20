@@ -136,7 +136,7 @@
     {
       "label": "XMake package",
       "type": "shell",
-      "command": "xmake package -vD -o E:\\xmake_packages ZmqPb >_build_logs\\10_package.txt 2>&1",
+      "command": "xmake package -vD -o E:\\Documents\\Projects\\NetworkingHelpers\\xmake-repo ZmqPb >_build_logs\\10_package.txt 2>&1",
       "options": {
         "env": {
           "PATH": "C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;D:\\Git;D:\\Git\\cmd;D:\\xmake"
