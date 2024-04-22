@@ -32,14 +32,15 @@ jobs:
       run: echo "key=$(date +'%W')" >> $GITHUB_OUTPUT
       shell: bash
 
+    # Edit to not use -d runtimes, protobuf doesn't like it?
     - name: Set vs_runtime string (windows)
       if: ${{ matrix.platform.os == 'windows' }}
       run: |
         if [ "${{ matrix.mode }}" == "debug" ]; then
           if [ "${{ matrix.libkind }}" == "shared" ]; then
-            echo "VS_RUNTIME_STRING=MDd" >> $GITHUB_ENV
+            echo "VS_RUNTIME_STRING=MD" >> $GITHUB_ENV
           else
-            echo "VS_RUNTIME_STRING=MTd" >> $GITHUB_ENV
+            echo "VS_RUNTIME_STRING=MT" >> $GITHUB_ENV
           fi
         else
           if [ "${{ matrix.libkind }}" == "shared" ]; then
