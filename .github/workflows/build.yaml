@@ -15,7 +15,7 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         platform:
         - { runner: windows-latest, os: windows, arch: x64,    archive_ext: .zip }
@@ -38,9 +38,9 @@ jobs:
       run: |
         if [ "${{ matrix.mode }}" == "debug" ]; then
           if [ "${{ matrix.libkind }}" == "shared" ]; then
-            echo "VS_RUNTIME_STRING=MD" >> $GITHUB_ENV
+            echo "VS_RUNTIME_STRING=MDd" >> $GITHUB_ENV
           else
-            echo "VS_RUNTIME_STRING=MT" >> $GITHUB_ENV
+            echo "VS_RUNTIME_STRING=MTd" >> $GITHUB_ENV
           fi
         else
           if [ "${{ matrix.libkind }}" == "shared" ]; then
