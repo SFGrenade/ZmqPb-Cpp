@@ -9,7 +9,7 @@ add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
 
 if is_plat( "windows" ) then
     -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types
-    set_languages( "cxx11" )
+    set_languages( "cxx14" )
 
     add_cxflags( "/Zc:__cplusplus" )
     add_cxflags( "/Zc:preprocessor" )
@@ -17,7 +17,7 @@ if is_plat( "windows" ) then
     add_cxflags( "/permissive-" )
 else
     -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types
-    set_languages( "c++11" )
+    set_languages( "c++14" )
 end
 
 add_requireconfs( "*", { debug = get_config( "mode" ) == "debug", configs = { shared = get_config( "kind" ) == "shared" } } )
