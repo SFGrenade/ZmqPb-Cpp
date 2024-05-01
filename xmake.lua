@@ -1,6 +1,6 @@
 set_project( "ZmqPb" )
 
-set_version( "0.5.0", { build = "%Y%m%d", soname = true } )
+set_version( "0.8.0", { build = "%Y%m%d", soname = true } )
 
 set_warnings( "allextra" )
 
