@@ -17,9 +17,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os:
+        - { image: macos-13, arch: x86_64 }
+        - { image: macos-14, arch: arm64 }
         kind: [static, shared]
-        arch: [x86_64, arm64]
         mode: [debug, release, releasedbg, minsizerel]
 
     runs-on: ${{ matrix.os }}
@@ -33,9 +34,9 @@ jobs:
     - name: Set OUTPUT_FILE variable
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
-          echo "OUTPUT_FILE=${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.mode }}_${{ matrix.kind }}_${{ env.VS_RUNTIME_STRING }}.tar.gz" >> $GITHUB_ENV
+          echo "OUTPUT_FILE=${{ matrix.os }}_${{ matrix.os.arch }}_${{ matrix.mode }}_${{ matrix.kind }}_${{ env.VS_RUNTIME_STRING }}.tar.gz" >> $GITHUB_ENV
         else
-          echo "OUTPUT_FILE=${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.mode }}_${{ matrix.kind }}.tar.gz" >> $GITHUB_ENV
+          echo "OUTPUT_FILE=${{ matrix.os }}_${{ matrix.os.arch }}_${{ matrix.mode }}_${{ matrix.kind }}.tar.gz" >> $GITHUB_ENV
         fi
       shell: bash
 
@@ -61,7 +62,7 @@ jobs:
       run: xmake repo --update -vD
 
     - name: Configure xmake and install dependencies
-      run: xmake config -vD --arch=${{ matrix.arch }} --mode=${{ matrix.mode }} --kind=${{ matrix.kind }} --yes --policies=package.precompiled:n
+      run: xmake config -vD --arch=${{ matrix.os.arch }} --mode=${{ matrix.mode }} --kind=${{ matrix.kind }} --yes --policies=package.precompiled:n
 
     - name: Build libs targets
       run: xmake build -vD --group=LIBS
