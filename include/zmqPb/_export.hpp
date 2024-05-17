@@ -1,17 +1,15 @@
-#if defined( ZMQPB_DO_EXPORT_LINUX )
+#include <hedley/hedley.h>
 
-#define ZMQPB_EXPORT __attribute__( ( dllexport ) ) __attribute__( ( visibility( "default" ) ) )
+#if defined( ZMQPB_IS_SHARED ) && defined( ZMQPB_COMPILING )
 
-#elif defined( ZMQPB_DO_EXPORT_MACOSX )
+#define ZMQPB_API HEDLEY_PUBLIC
 
-#define ZMQPB_EXPORT __attribute__( ( visibility( "default" ) ) )
+#elif defined( ZMQPB_IS_SHARED )
 
-#elif defined( ZMQPB_DO_EXPORT_WINDOWS )
-
-#define ZMQPB_EXPORT __declspec( dllexport )
+#define ZMQPB_API HEDLEY_IMPORT
 
 #else
 
-#define ZMQPB_EXPORT
+#define ZMQPB_API
 
 #endif

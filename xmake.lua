@@ -21,7 +21,7 @@ else
 end
 
 add_requires( "cppzmq" )
---add_requires( "protobuf-cpp 3.*" )
+add_requires( "hedley" )
 add_requires( "protobuf-cpp" )
 -- protobuf-* needs it and somehow just doesn't publicizes the linkage
 --add_requires( "abseil" )
@@ -35,17 +35,13 @@ target( "ZmqPb" )
     set_default( true )
     set_group( "LIBS" )
 
+    add_defines( "ZMQPB_COMPILING" )
     if is_kind( "shared" ) then
-        if is_plat( "linux" ) then
-            add_defines( "ZMQPB_DO_EXPORT_LINUX" )
-        elseif is_plat( "macosx" ) then
-            add_defines( "ZMQPB_DO_EXPORT_MACOSX" )
-        elseif is_plat( "windows" ) then
-            add_defines( "ZMQPB_DO_EXPORT_WINDOWS" )
-        end
+        add_defines( "ZMQPB_IS_SHARED" )
     end
 
     add_packages( "cppzmq", { public = true } )
+    add_packages( "hedley", { public = true } )
     add_packages( "protobuf-cpp", { public = true } )
     -- protobuf-* needs it and somehow just doesn't publicizes the linkage
     --add_packages( "abseil", { public = true } )
