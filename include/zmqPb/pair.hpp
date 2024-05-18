@@ -6,7 +6,7 @@
 
 namespace ZmqPb {
 
-class ZMQPB_API Pair : public ZmqWrap {
+class ZMQPB_API_CLASSES Pair : public ZmqWrap {
   public:
   Pair( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~Pair() override;

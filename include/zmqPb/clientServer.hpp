@@ -7,7 +7,7 @@
 
 namespace ZmqPb {
 
-class ZMQPB_API ClientServer : public ZmqWrap {
+class ZMQPB_API_CLASSES ClientServer : public ZmqWrap {
   public:
   ClientServer( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~ClientServer() override;

@@ -6,7 +6,7 @@
 
 namespace ZmqPb {
 
-class ZMQPB_API PubSub : public ZmqWrap {
+class ZMQPB_API_CLASSES PubSub : public ZmqWrap {
   public:
   PubSub( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~PubSub() override;

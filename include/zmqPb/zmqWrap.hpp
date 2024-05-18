@@ -14,7 +14,7 @@
 
 namespace ZmqPb {
 
-class ZMQPB_API ZmqWrap {
+class ZMQPB_API_CLASSES ZmqWrap {
   public:
   ZmqWrap() = delete;
   ZmqWrap( ZmqWrap const& ) = delete;

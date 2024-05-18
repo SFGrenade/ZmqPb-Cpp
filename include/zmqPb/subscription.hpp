@@ -8,7 +8,7 @@
 
 namespace ZmqPb {
 
-class ZMQPB_API Subscription {
+class ZMQPB_API_CLASSES Subscription {
   public:
   Subscription();
   Subscription( Subscription const& other );
