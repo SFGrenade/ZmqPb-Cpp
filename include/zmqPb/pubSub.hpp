@@ -1,12 +1,11 @@
 #ifndef PUBSUB_HPP_
 #define PUBSUB_HPP_
 
-#include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class ZMQPB_API_CLASSES PubSub : public ZmqWrap {
+class PubSub : public ZmqWrap {
   public:
   PubSub( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~PubSub() override;

@@ -4,11 +4,10 @@
 #include <functional>
 #include <google/protobuf/message.h>
 
-#include "zmqPb/_export.hpp"
 
 namespace ZmqPb {
 
-ZMQPB_API_CLASSES class Subscription {
+class Subscription {
   public:
   Subscription();
   Subscription( Subscription const& other );

@@ -1,12 +1,11 @@
 #ifndef PUSHPULL_HPP_
 #define PUSHPULL_HPP_
 
-#include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class ZMQPB_API_CLASSES PushPull : public ZmqWrap {
+class PushPull : public ZmqWrap {
   public:
   PushPull( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~PushPull() override;

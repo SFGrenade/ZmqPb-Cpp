@@ -10,12 +10,11 @@
 #include <utility>
 #include <zmq.hpp>
 
-#include "zmqPb/_export.hpp"
 #include "zmqPb/subscription.hpp"
 
 namespace ZmqPb {
 
-ZMQPB_API_CLASSES class ZmqWrap {
+class ZmqWrap {
   public:
   ZmqWrap() = delete;
   ZmqWrap( ZmqWrap const& ) = delete;
