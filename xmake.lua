@@ -1,6 +1,6 @@
 set_project( "ZmqPb" )
 
-set_version( "0.10.0", { build = "%Y%m%d", soname = true } )
+set_version( "0.10.1", { build = "%Y%m%d", soname = true } )
 
 set_warnings( "allextra" )
 
@@ -37,7 +37,7 @@ target( "ZmqPb" )
     add_rules( "protobuf.cpp" )
 
     add_includedirs( "include", { public = true } )
-    add_headerfiles( "include/zmqPb/*.hpp" )
+    add_headerfiles( "include/(zmqPb/*.hpp)" )
 
 target( "ZmqPb_Tests" )
     set_kind( "binary" )
