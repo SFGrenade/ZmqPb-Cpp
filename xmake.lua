@@ -21,23 +21,31 @@ else
 end
 
 add_requires( "cppzmq" )
+add_requires( "hedley" )
 add_requires( "protobuf-cpp" )
 
 -- test framework
 add_requires( "gtest" )
 
 target( "ZmqPb" )
-    set_kind( "headeronly" )
+    set_kind( "$(kind)" )
     set_default( true )
     set_group( "LIBS" )
 
+    add_defines( "ZMQPB_COMPILING" )
+    if is_kind( "shared" ) then
+        add_defines( "ZMQPB_IS_SHARED" )
+    end
+
     add_packages( "cppzmq", { public = true } )
+    add_packages( "hedley", { public = true } )
     add_packages( "protobuf-cpp", { public = true } )
 
     add_rules( "protobuf.cpp" )
 
     add_includedirs( "include", { public = true } )
     add_headerfiles( "include/(zmqPb/*.hpp)" )
+    add_files( "src/*.cpp" )
 
 target( "ZmqPb_Tests" )
     set_kind( "binary" )

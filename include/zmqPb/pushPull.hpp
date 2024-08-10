@@ -1,11 +1,12 @@
 #ifndef PUSHPULL_HPP_
 #define PUSHPULL_HPP_
 
+#include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
 
 namespace ZmqPb {
 
-class PushPull : public ZmqWrap {
+class ZMQPB_API_CLASSES PushPull : public ZmqWrap {
   public:
   PushPull( std::string const& host, bool isServer, zmq::context_t* contextToUse = nullptr );
   ~PushPull() override;
@@ -16,25 +17,6 @@ class PushPull : public ZmqWrap {
   virtual bool canRecv() const override;
   virtual void didRecv() override;
 };
-
-PushPull::PushPull( std::string const& host, bool isServer, zmq::context_t* contextToUse )
-    : ZmqWrap( host, isServer, isServer ? zmq::socket_type::push : zmq::socket_type::pull, contextToUse ) {
-  connectSocket();
-}
-
-PushPull::~PushPull() {}
-
-bool PushPull::canSend() const {
-  return getIsServer();
-}
-
-void PushPull::didSend() {}
-
-bool PushPull::canRecv() const {
-  return !getIsServer();
-}
-
-void PushPull::didRecv() {}
 
 }  // namespace ZmqPb
 
