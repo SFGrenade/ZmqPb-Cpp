@@ -11,7 +11,8 @@ namespace ZmqPb {
 class ZMQPB_API_CLASSES Subscription {
   public:
   Subscription();
-  Subscription( Subscription const& other );
+  Subscription( Subscription const& other ) = delete;
+  Subscription( Subscription&& other );
   Subscription( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback );
   ~Subscription();
 

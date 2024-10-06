@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package ZmqPb.Proto;
+
+message Wrap {
+  string topic = 1;
+  bytes message = 2;
+}

@@ -5,6 +5,8 @@
 #include <queue>
 #include <utility>
 
+#include "zmqPb/wrap.pb.h"
+
 namespace ZmqPb {
 
 class ZmqWrap::impl {
@@ -17,7 +19,7 @@ class ZmqWrap::impl {
   zmq::socket_t zmqSocket_;
 
   std::mutex mutexForSendQueue_;
-  std::queue< std::pair< std::string, std::string > > queueToSend_;
+  std::queue< zmq::message_t* > queueToSend_;
   std::map< std::string, Subscription > subscribedMessages_;
 };
 
@@ -32,13 +34,15 @@ ZmqWrap::ZmqWrap( std::string const& host, bool isServer, zmq::socket_type socke
 
 ZmqWrap::~ZmqWrap() {
   while( !pimpl->queueToSend_.empty() ) {
-    // std::pair< std::string, std::string > const& tmp = pimpl->queueToSend_.front();
+    zmq::message_t* tmp = pimpl->queueToSend_.front();
+    delete tmp;
     pimpl->queueToSend_.pop();
   }
   pimpl->subscribedMessages_.clear();
   pimpl->zmqSocket_.close();
   if( pimpl->ownsContext_ ) {
     pimpl->zmqContext_->shutdown();
+    delete pimpl->zmqContext_;
   }
   delete pimpl;
   pimpl = nullptr;
@@ -48,53 +52,53 @@ void ZmqWrap::subscribe( google::protobuf::Message* message, std::function< void
   std::string messageType = message->GetTypeName();
   auto found = pimpl->subscribedMessages_.find( messageType );
   if( found == pimpl->subscribedMessages_.end() ) {
-    pimpl->subscribedMessages_[messageType] = Subscription{ message, callback };
+    pimpl->subscribedMessages_.emplace( messageType, Subscription{ message, callback } );
+    // pimpl->subscribedMessages_[messageType] = Subscription{ message, callback };
   }
 }
 
 void ZmqWrap::sendMessage( google::protobuf::Message* message ) {
   pimpl->mutexForSendQueue_.lock();
-  std::pair< std::string, std::string > wrappedMessage;
-  wrappedMessage.first = message->GetTypeName();
-  wrappedMessage.second = message->SerializeAsString();
-  pimpl->queueToSend_.push( wrappedMessage );
+  ZmqPb::Proto::Wrap* wrappedMessage = new ZmqPb::Proto::Wrap();
+  wrappedMessage->set_topic( message->GetTypeName() );
+  wrappedMessage->set_message( message->SerializeAsString() );
+  zmq::message_t* serializedWrappedMessage = new zmq::message_t( wrappedMessage->SerializeAsString() );
+  pimpl->queueToSend_.push( serializedWrappedMessage );
   pimpl->mutexForSendQueue_.unlock();
+  delete wrappedMessage;
   delete message;
 }
 
 void ZmqWrap::run() {
   if( canSend() && !pimpl->queueToSend_.empty() ) {
     pimpl->mutexForSendQueue_.lock();
-    std::pair< std::string, std::string > msgToSend = pimpl->queueToSend_.front();
-    zmq::message_t* msgToSendPartOne = new zmq::message_t( msgToSend.first );
-    zmq::send_result_t sendResultPartOne = pimpl->zmqSocket_.send( *msgToSendPartOne, zmq::send_flags::dontwait );
-    zmq::message_t* msgToSendPartTwo = new zmq::message_t( msgToSend.second );
-    zmq::send_result_t sendResultPartTwo = pimpl->zmqSocket_.send( *msgToSendPartTwo, zmq::send_flags::dontwait );
-    if( sendResultPartOne && sendResultPartTwo ) {
+    zmq::message_t* msgToSend = pimpl->queueToSend_.front();
+    zmq::send_result_t sendResult = pimpl->zmqSocket_.send( *msgToSend, zmq::send_flags::dontwait );
+    if( sendResult ) {
       didSend();
+      delete msgToSend;
       pimpl->queueToSend_.pop();
-      delete msgToSendPartOne;
-      delete msgToSendPartTwo;
     } else {
     }
     pimpl->mutexForSendQueue_.unlock();
   } else if( canRecv() ) {
-    std::pair< std::string, std::string > receivedWrapper;
-    zmq::message_t receivedReplyPartOne;
-    zmq::recv_result_t recvResultPartOne = pimpl->zmqSocket_.recv( receivedReplyPartOne, zmq::recv_flags::dontwait );
-    zmq::message_t receivedReplyPartTwo;
-    zmq::recv_result_t recvResultPartTwo = pimpl->zmqSocket_.recv( receivedReplyPartTwo, zmq::recv_flags::dontwait );
-    if( recvResultPartOne && recvResultPartTwo ) {
+    zmq::message_t receivedReply;
+    zmq::recv_result_t recvResult = pimpl->zmqSocket_.recv( receivedReply, zmq::recv_flags::dontwait );
+    if( recvResult.has_value() ) {
+    }
+    if( recvResult ) {
       didRecv();
-      receivedWrapper.first = receivedReplyPartOne.to_string();
-      receivedWrapper.second = receivedReplyPartTwo.to_string();
-      auto found = pimpl->subscribedMessages_.find( receivedWrapper.first );
+      ZmqPb::Proto::Wrap* wrappedMessage = new ZmqPb::Proto::Wrap();
+      wrappedMessage->ParseFromString( receivedReply.to_string() );
+      auto found = pimpl->subscribedMessages_.find( wrappedMessage->topic() );
       if( found != pimpl->subscribedMessages_.end() ) {
-        found->second.getMessage()->ParseFromString( receivedWrapper.second );
+        found->second.getMessage()->ParseFromString( wrappedMessage->message() );
         found->second.getCallback()( *( found->second.getMessage() ) );
       } else {
-        throw std::runtime_error( "Topic '" + receivedWrapper.first + "' not subscribed!" );
+        delete wrappedMessage;
+        throw std::runtime_error( "Topic '" + wrappedMessage->topic() + "' not subscribed!" );
       }
+      delete wrappedMessage;
     } else {
     }
   }

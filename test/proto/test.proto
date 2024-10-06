@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package ZmqPb.Test;
+
+message TestMessage {
+  string test = 1;
+}

@@ -42,6 +42,7 @@ target( "ZmqPb" )
     add_packages( "protobuf-cpp", { public = true } )
 
     add_rules( "protobuf.cpp" )
+    add_files( "proto/**.proto", { proto_public = false, proto_rootdir = path.join( "proto" ) } )
 
     add_includedirs( "include", { public = true } )
     add_headerfiles( "include/(zmqPb/*.hpp)" )
@@ -54,5 +55,8 @@ target( "ZmqPb_Tests" )
 
     add_deps( "ZmqPb", { public = true } )
     add_packages( "gtest", { public = true } )
+
+    add_rules( "protobuf.cpp" )
+    add_files( "test/**.proto", { proto_public = true, proto_rootdir = path.join( "." ) } )
 
     add_files( "test/*.cpp" )
