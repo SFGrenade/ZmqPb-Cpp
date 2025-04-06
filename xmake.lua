@@ -1,11 +1,10 @@
 set_project( "ZmqPb" )
 
-set_version( "0.10.2", { build = "%Y%m%d", soname = true } )
+set_version( "0.10.4", { build = "%Y%m%d", soname = true } )
 
 set_warnings( "allextra" )
 
 add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
---add_rules( "plugin.compile_commands.autoupdate", { outputdir = ".vscode" } )
 
 if is_plat( "windows" ) then
     -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types

@@ -9,6 +9,9 @@
 
 namespace ZmqPb {
 
+// typedef std::string ZmqpbSubscriptionStringType;
+typedef absl::string_view ZmqpbSubscriptionStringType;
+
 class ZmqWrap::impl {
   public:
   std::string host_;
@@ -20,7 +23,7 @@ class ZmqWrap::impl {
 
   std::mutex mutexForSendQueue_;
   std::queue< zmq::message_t* > queueToSend_;
-  std::map< std::string, Subscription > subscribedMessages_;
+  std::map< ZmqpbSubscriptionStringType, Subscription > subscribedMessages_;
 };
 
 ZmqWrap::ZmqWrap( std::string const& host, bool isServer, zmq::socket_type socketType, zmq::context_t* contextToUse ) : pimpl( new impl ) {
@@ -49,7 +52,7 @@ ZmqWrap::~ZmqWrap() {
 }
 
 void ZmqWrap::subscribe( google::protobuf::Message* message, std::function< void( google::protobuf::Message const& ) > callback ) {
-  std::string messageType = message->GetTypeName();
+  ZmqpbSubscriptionStringType messageType = message->GetTypeName();
   auto found = pimpl->subscribedMessages_.find( messageType );
   if( found == pimpl->subscribedMessages_.end() ) {
     pimpl->subscribedMessages_.emplace( messageType, Subscription{ message, callback } );
