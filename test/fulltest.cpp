@@ -253,3 +253,8 @@ TEST( ZmqPb, ConstructorTest06 ) {
   delete client;
   delete server;
 }
+
+TEST( ZmqPb, MessageTest ) {
+  ZmqPb::Test::TestMessage* tmpMessage = new ZmqPb::Test::TestMessage();
+  delete tmpMessage;
+}

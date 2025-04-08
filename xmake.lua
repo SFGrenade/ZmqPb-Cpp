@@ -2,23 +2,6 @@ set_project( "ZmqPb" )
 
 set_version( "0.10.4", { build = "%Y%m%d", soname = true } )
 
-set_warnings( "allextra" )
-
-add_rules( "mode.debug", "mode.release", "mode.releasedbg", "mode.minsizerel" )
-
-if is_plat( "windows" ) then
-    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types
-    set_languages( "cxx17" )
-
-    add_cxflags( "/Zc:__cplusplus" )
-    add_cxflags( "/Zc:preprocessor" )
-
-    add_cxflags( "/permissive-" )
-else
-    -- technically 11, but abseil (dep of protobuf-cpp) needs >=14, but uses >=17 types
-    set_languages( "c++17" )
-end
-
 add_requires( "cppzmq" )
 add_requires( "hedley" )
 add_requires( "protobuf-cpp" )
@@ -47,15 +30,24 @@ target( "ZmqPb" )
     add_headerfiles( "include/(zmqPb/*.hpp)" )
     add_files( "src/*.cpp" )
 
+target( "ZmqPb_Tests_Messages" )
+    set_kind( "static" )
+    set_default( false )
+    set_group( "LIBS" )
+
+    add_deps( "ZmqPb", { public = true } )
+
+    add_rules( "protobuf.cpp" )
+    add_files( "test/proto/**.proto", { proto_public = true, proto_rootdir = path.join( "." ) } )
+
 target( "ZmqPb_Tests" )
     set_kind( "binary" )
     set_default( false )
     set_group( "TESTS" )
 
-    add_deps( "ZmqPb", { public = true } )
     add_packages( "gtest", { public = true } )
 
-    add_rules( "protobuf.cpp" )
-    add_files( "test/**.proto", { proto_public = true, proto_rootdir = path.join( "." ) } )
+    add_deps( "ZmqPb", { public = true } )
+    add_deps( "ZmqPb_Tests_Messages", { public = true } )
 
     add_files( "test/*.cpp" )

@@ -5,7 +5,7 @@
 #include <queue>
 #include <utility>
 
-#include "zmqPb/wrap.pb.h"
+#include "zmqPb/proto/wrap.pb.h"
 
 namespace ZmqPb {
 

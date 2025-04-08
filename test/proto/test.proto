@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package ZmqPb.Test;
 
+message EmptyTestMessage {
+  // string dont_care = 1;
+}
+
 message TestMessage {
   string test = 1;
 }
