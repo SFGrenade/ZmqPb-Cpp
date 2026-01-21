@@ -1,5 +1,6 @@
-#ifdef ZMQ_BUILD_DRAFT_API
 #include "zmqPb/radioDish.hpp"
+
+#ifdef ZMQ_BUILD_DRAFT_API
 
 #include <stdexcept>
 
@@ -33,7 +34,7 @@ void RadioDish::sendMessage( google::protobuf::Message* message, std::string con
 }
 
 void RadioDish::sendMessage( google::protobuf::Message* message ) {
-  throw new invalid_argument( "RadioDish::sendMessage - overloaded function without group not implemented!" );
+  throw new std::invalid_argument( "RadioDish::sendMessage - overloaded function without group not implemented!" );
 }
 
 bool RadioDish::canSend() const {

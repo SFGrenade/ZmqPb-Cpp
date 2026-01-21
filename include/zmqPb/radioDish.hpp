@@ -1,11 +1,12 @@
-#ifdef ZMQ_BUILD_DRAFT_API
 #ifndef RADIODISH_HPP_
 #define RADIODISH_HPP_
 
-#include <vector>
-
 #include "zmqPb/_export.hpp"
 #include "zmqPb/zmqWrap.hpp"
+
+#ifdef ZMQ_BUILD_DRAFT_API
+
+#include <vector>
 
 namespace ZmqPb {
 

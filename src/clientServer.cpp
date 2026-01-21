@@ -1,5 +1,6 @@
-#ifdef ZMQ_BUILD_DRAFT_API
 #include "zmqPb/clientServer.hpp"
+
+#ifdef ZMQ_BUILD_DRAFT_API
 
 namespace ZmqPb {
 
